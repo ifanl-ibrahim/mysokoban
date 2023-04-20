@@ -1,13 +1,7 @@
 import pygame
 from pygame.locals import *
-import maps
+import maps, tools
 pygame.init()
-success = pygame.mixer.Sound("sounds/Pokémon - Capture Sound Effect.mp3")
-success.set_volume(1.0)
-collision = pygame.mixer.Sound("sounds/Pokémon - Collision - Sound Effect.mp3")
-collision.set_volume(1.0)
-catch = pygame.mixer.Sound("sounds/Pokémon - Save Game - Sound Effect.mp3")
-catch.set_volume(1.0)
 
 # Création des classes Player, Box, Wall, Target
 class Player:
@@ -16,60 +10,42 @@ class Player:
         self.y = y
 
     def move(self, dx, dy):
-        if not self.collides_with_wall(dx, dy):
-            if self.collides_with_box(dx, dy):
-                box = get_box(self, self.x + dx, self.y + dy)
-                if box and box.move(dx, dy):
-                    self.x += dx
-                    self.y += dy
-                    pygame.display.update()
-                    return True
-                return False
-            else:
+        if maps.map_data[self.y + dy][self.x + dx] != 'W':
+            self.x += dx
+            self.y += dy
+        else :
+            tools.collision.play()
+            return
+        
+    def push(self, dx, dy):
+        if maps.map_data[self.y + dy][self.x + dx] == 'B':
+            box_hit = Box(self.x + dx, self.y + dy) 
+            if maps.map_data[self.y + dy * 2][self.x + dx * 2] != 'W' and maps.map_data[self.y + dy * 2][self.x + dx * 2] != 'B':
                 self.x += dx
                 self.y += dy
-                pygame.display.update()
-                return True
-        collision.play()
-        return False
-    
-    def collides_with_wall(self, dx, dy):
-        return maps.map_data[self.y + dy][self.x + dx] == 'W'
-
-    def collides_with_box(self, dx, dy):
-        return maps.map_data[self.y + dy][self.x + dx] == 'B'
-
-def get_box(self, x, y):
-    for box in box_list:
-        if box.x == x and box.y == y:
-            return box
-    return None
-
+                for box in box_list:
+                    if box_hit.x == self.x and box_hit.y == self.y:
+                        box_hit.x += dx
+                        box_hit.y += dy
+                        for target in target_list:
+                            if box_hit.x == target.x and box_hit.y == target.y:
+                                box.image = pygame.transform.scale(pygame.image.load("assets/boxValid.png").convert_alpha(), (tools.image_width, tools.image_height))
+                                tools.catch.play()
+            else:
+                tools.collision.play()
+                return
+            
 class Box:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-
-    def move(self, dx, dy):
-        new_x = self.x + dx
-        new_y = self.y + dy
-        if not collides_with_wall(self, new_x, new_y) and not collides_with_box(self, new_x, new_y):
-            self.x = new_x
-            self.y = new_y
-            pygame.display.update()
-            return True
-        return False
-    
-def collides_with_wall(self, x, y):
-    return maps.map_data[y][x] == 'W'
-
-def collides_with_box(self, x, y):
-    return maps.map_data[y][x] == 'B'
+        self.rect = pygame.Rect(self.x * 70, self.y * 79, tools.image_width, tools.image_height)
         
 class Wall:
     def __init__(self, x, y):
         self.x = x
         self.y = y
+        self.rect = pygame.Rect(self.x * 70, self.y * 79, tools.image_width, tools.image_height)
 
 class Target:
     def __init__(self, x, y):
