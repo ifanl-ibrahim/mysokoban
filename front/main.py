@@ -7,6 +7,52 @@ import classes, tools, maps
 pygame.init()
 
 # Création des fonctions
+
+def display_home():
+    screen_width, screen_height = pygame.display.get_surface().get_size()
+    scaled_home_image = pygame.transform.smoothscale(tools.home_image, (screen_width, screen_height))
+    tools.screen.blit(scaled_home_image, (0, 0))
+    tools.music.stop()
+    tools.home_music.set_volume(1.0)
+    tools.home_music.play()
+    pygame.display.update()
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                exit()
+            if event.type == KEYDOWN:
+                tools.home_music.stop()
+                if event.key == K_ESCAPE:
+                    exit()
+                if event.key == K_RETURN:
+                    return  # Sort de la fonction pour lancer le jeu
+                
+def display_finish():
+    screen_width, screen_height = pygame.display.get_surface().get_size()
+    scaled_finish_image = pygame.transform.smoothscale(tools.finish_image, (screen_width, screen_height))
+    tools.screen.blit(scaled_finish_image, (0, 0))
+    tools.music.stop()
+    tools.success.set_volume(1.0)
+    tools.success.play()
+    pygame.display.update()
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                exit()
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    exit()
+                if event.key == K_SPACE:
+                    tools.music.play(-1)
+                    restart()
+                    return  # Sort de la fonction pour lancer le jeu
+
+# état du jeu
+is_home = True
+is_finish = True
+
 def draw_map():
     for y in range(12):
         for x in range(15):
@@ -61,6 +107,14 @@ for y in range(11):
 
 # Boucle principale
 while True:
+    if is_home:
+        display_home()
+        is_home = False  # Passe à False pour ne plus afficher la page d'accueil
+
+    if tools.check_win == True:
+        display_finish()
+        tools.check_win = False
+
     for event in pygame.event.get():
         if event.type == QUIT:
             exit()
@@ -83,6 +137,8 @@ while True:
                 player.move(0, 1)
 
     tools.screen.blit(tools.background, (0, 0))
+    tools.music.set_volume(0.1)
+    tools.music.play(-1)
     draw_map()
     draw_player()
     draw_box()

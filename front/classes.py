@@ -11,9 +11,12 @@ class Player:
 
     def move(self, dx, dy):
         if maps.map_data[self.y + dy][self.x + dx] == 'W':
+            tools.collision.set_volume(1.0)
             tools.collision.play()
             return
         elif maps.map_data[self.y + dy][self.x + dx] == 'T':
+            tools.check_win = True
+            tools.success.set_volume(1.0)
             tools.success.play()
             return
         else :
