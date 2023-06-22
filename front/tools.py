@@ -7,12 +7,15 @@ screen_width = 1041
 screen_height = 862
 screen = pygame.display.set_mode((screen_width, screen_height), 0, 32)
 background = pygame.image.load("assets/background.png").convert()
-pygame.display.set_caption("Sokoban")
+pygame.display.set_caption("Rocket Catcher")
 
 # Création des images
 image_width = 64
 image_height = 64
-player_image = pygame.transform.scale(pygame.image.load("assets/player.png").convert_alpha(), (image_width, image_height))
+player_image = pygame.transform.scale(pygame.image.load("assets/player_sprite-face.png").convert_alpha(), (image_width, image_height))
+playerLeft_image = pygame.transform.scale(pygame.image.load("assets/player_sprite-left.png").convert_alpha(), (image_width, image_height))
+playerRight_image = pygame.transform.scale(pygame.image.load("assets/player_sprite-right.png").convert_alpha(), (image_width, image_height))
+playerBack_image = pygame.transform.scale(pygame.image.load("assets/player_sprite-back.png").convert_alpha(), (image_width, image_height))
 box_image = pygame.transform.scale(pygame.image.load("assets/box.png").convert_alpha(), (image_width, image_height))
 boxValid_image = pygame.transform.scale(pygame.image.load("assets/boxValid.png").convert_alpha(), (image_width, image_height))
 wall_image = pygame.transform.scale(pygame.image.load("assets/wall.png").convert_alpha(), (image_width, image_height))
