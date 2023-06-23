@@ -22,14 +22,7 @@ class Player:
         else :
             self.x += dx
             self.y += dy
-            
-            
-class Box:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-        self.rect = pygame.Rect(self.x * 70, self.y * 79, tools.image_width, tools.image_height)
-        
+             
 class Wall:
     def __init__(self, x, y):
         self.x = x
@@ -43,6 +36,5 @@ class Target:
 
 # Création des listes
 player_list = []
-box_list = []
 wall_list = []
 target_list = []

@@ -7,7 +7,6 @@ import classes, tools, maps
 pygame.init()
 
 # Création des fonctions
-
 def display_home():
     screen_width, screen_height = pygame.display.get_surface().get_size()
     scaled_home_image = pygame.transform.smoothscale(tools.home_image, (screen_width, screen_height))
@@ -26,6 +25,8 @@ def display_home():
                 if event.key == K_ESCAPE:
                     exit()
                 if event.key == K_RETURN:
+                    tools.music.set_volume(0.2)
+                    tools.music.play(-1)
                     return  # Sort de la fonction pour lancer le jeu
                 
 def display_finish():
@@ -47,12 +48,13 @@ def display_finish():
                 if event.key == K_SPACE:
                     tools.music.play(-1)
                     restart()
-                    return  # Sort de la fonction pour lancer le jeu
+                    return 
 
 # état du jeu
 is_home = True
 is_finish = True
 
+# affichage des instance
 def draw_map():
     for y in range(12):
         for x in range(15):
@@ -67,10 +69,6 @@ def draw_player():
     for player in classes.player_list:
         tools.screen.blit(player.image, (player.x * 70, player.y * 79))
 
-def draw_box():
-    for box in classes.box_list:
-        tools.screen.blit(box.image, (box.x * 70, box.y * 79))
-
 def draw_target():
     for target in classes.target_list:
         tools.screen.blit(target.image, (target.x * 70, target.y * 79))
@@ -82,9 +80,6 @@ def restart():
             if maps.map_data[y][x] == 'P':
                 player.x = x
                 player.y = y
-            elif maps.map_data[y][x] == 'B':
-                box.x = x
-                box.y = y
             elif maps.map_data[y][x] == 'T':
                 target.x = x
                 target.y = y
@@ -96,10 +91,6 @@ for y in range(11):
             player = classes.Player(x, y)
             player.image = tools.player_image
             classes.player_list.append(player)
-        elif maps.map_data[y][x] == 'B':
-            box = classes.Box(x, y)
-            box.image = tools.box_image
-            classes.box_list.append(box)
         elif maps.map_data[y][x] == 'T':
             target = classes.Target(x, y)
             target.image = tools.target_image
@@ -137,10 +128,7 @@ while True:
                 player.move(0, 1)
 
     tools.screen.blit(tools.background, (0, 0))
-    tools.music.set_volume(0.1)
-    tools.music.play(-1)
     draw_map()
     draw_player()
-    draw_box()
     draw_target()
     pygame.display.update()

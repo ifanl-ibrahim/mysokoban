@@ -6,7 +6,7 @@ pygame.init()
 screen_width = 1041
 screen_height = 862
 screen = pygame.display.set_mode((screen_width, screen_height), 0, 32)
-background = pygame.image.load("assets/background.png").convert()
+background = pygame.image.load("assets/background.png")
 pygame.display.set_caption("Rocket Catcher")
 pygame.display.set_icon(pygame.image.load("assets/icon.png"))
 check_win = False
@@ -14,26 +14,17 @@ check_win = False
 # Création des images
 image_width = 64
 image_height = 64
-home_image = pygame.image.load("assets/home.jpg").convert()
-finish_image = pygame.image.load("assets/finish.png").convert()
-player_image = pygame.transform.scale(pygame.image.load("assets/player_sprite-face.png").convert_alpha(), (image_width, image_height))
-playerLeft_image = pygame.transform.scale(pygame.image.load("assets/player_sprite-left.png").convert_alpha(), (image_width, image_height))
-playerRight_image = pygame.transform.scale(pygame.image.load("assets/player_sprite-right.png").convert_alpha(), (image_width, image_height))
-playerBack_image = pygame.transform.scale(pygame.image.load("assets/player_sprite-back.png").convert_alpha(), (image_width, image_height))
-box_image = pygame.transform.scale(pygame.image.load("assets/box.png").convert_alpha(), (image_width, image_height))
-boxValid_image = pygame.transform.scale(pygame.image.load("assets/boxValid.png").convert_alpha(), (image_width, image_height))
-wall_image = pygame.transform.scale(pygame.image.load("assets/wall.png").convert_alpha(), (image_width, image_height))
-target_image = pygame.transform.scale(pygame.image.load("assets/target.png").convert_alpha(), (image_width, image_height))
+home_image = pygame.image.load("assets/home.jpg")
+finish_image = pygame.image.load("assets/finish.png")
+player_image = pygame.transform.scale(pygame.image.load("assets/player_sprite-face.png"), (image_width, image_height))
+playerLeft_image = pygame.transform.scale(pygame.image.load("assets/player_sprite-left.png"), (image_width, image_height))
+playerRight_image = pygame.transform.scale(pygame.image.load("assets/player_sprite-right.png"), (image_width, image_height))
+playerBack_image = pygame.transform.scale(pygame.image.load("assets/player_sprite-back.png"), (image_width, image_height))
+wall_image = pygame.transform.scale(pygame.image.load("assets/wall.png"), (image_width, image_height))
+target_image = pygame.transform.scale(pygame.image.load("assets/target.png"), (image_width, image_height))
 
 # Création des sons
 home_music = pygame.mixer.Sound("sounds/Devise de la Team Rocket.mp3")
-
 music = pygame.mixer.Sound("sounds/Pokémon Musique  - Jadielle, Argenta & Safrania.mp3")
-music.play(-1)
-music.set_volume(0.3)
-
 success = pygame.mixer.Sound("sounds/Pokémon - Capture Sound Effect.mp3")
-
 collision = pygame.mixer.Sound("sounds/Pokémon - Collision - Sound Effect.mp3")
-
-catch = pygame.mixer.Sound("sounds/Pokémon - Save Game - Sound Effect.mp3")
